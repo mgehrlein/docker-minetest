@@ -66,9 +66,10 @@ RUN \
  make && \
  make install && \
  echo "**** compile minetestserver ****" && \
- git clone --depth 1 https://github.com/minetest/minetest.git /tmp/minetest && \
- cp /tmp/minetest//minetest.conf.example /defaults/minetest.conf && \
+ git clone https://github.com/minetest/minetest.git /tmp/minetest && \
  cd /tmp/minetest && \
+ git checkout -b stable4 remotes/origin/stable-0.4 && \
+ cp /tmp/minetest//minetest.conf.example /defaults/minetest.conf && \
  cmake . \
 	-DBUILD_CLIENT=0 \
 	-DBUILD_SERVER=1 \
@@ -90,7 +91,9 @@ RUN \
 	/defaults/games && \
  cp -pr  /usr/share/minetest/games/* /defaults/games/ && \
  echo "**** fetch additional game from git ****" && \
- git clone --depth 1 https://github.com/minetest/minetest_game.git /defaults/games/minetest && \
+ git clone https://github.com/minetest/minetest_game.git /defaults/games/minetest && \
+ cd /defaults/games/minetest && \
+ git checkout -b stable4 remotes/origin/stable-0.4 && \
  echo "**** cleanup ****" && \
  apk del --purge \
 	build-dependencies && \
